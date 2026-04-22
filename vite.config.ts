@@ -4,7 +4,10 @@ import dts from 'vite-plugin-dts'
 import { resolve } from 'path'
 
 export default defineConfig({
-  plugins: [vue(), dts({ tsconfigPath: './tsconfig.app.json', rollupTypes: true })],
+  plugins: [
+    vue(),
+    process.env.npm_lifecycle_event === 'build' && dts({ tsconfigPath: './tsconfig.app.json', rollupTypes: true }),
+  ],
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
