@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref, computed, onMounted, onUnmounted, watch, onBeforeMount} from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 
 interface Props {
   intensity?: number
@@ -20,7 +20,12 @@ const videoRef = computed<HTMLVideoElement | null>(() => containerRef.value?.get
 
 let rafId: number | null = null
 
-function drawFrame() {
+const canvasInset = computed(() => `-${props.spread}px`)
+const canvasSize = computed(() => `calc(100% + ${props.spread * 2}px)`)
+const canvasBlur = computed(() => `blur(${props.intensity}px)`)
+const canvasOpacity = computed(() => props.opacity)
+
+const drawFrame = () =>  {
   const video = videoRef.value
   const canvas = canvasRef.value
   if (!video || !canvas) return
@@ -29,12 +34,12 @@ function drawFrame() {
   ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
 }
 
-function loop() {
+const loop = () => {
   drawFrame()
   rafId = requestAnimationFrame(loop)
 }
 
-function startLoop() {
+const startLoop = () => {
   if (props.disabled) return
   stopLoop()
   loop()
@@ -49,33 +54,43 @@ function stopLoop() {
 
 onMounted(startLoop)
 onUnmounted(stopLoop)
-
-const canvasStyle = computed(() => ({
-  position: 'absolute' as const,
-  inset: `-${props.spread}px`,
-  width: `calc(100% + ${props.spread * 2}px)`,
-  height: `calc(100% + ${props.spread * 2}px)`,
-  filter: `blur(${props.intensity}px)`,
-  opacity: props.opacity,
-  zIndex: 0,
-  pointerEvents: 'none' as const,
-}))
 </script>
 
 <template>
-  <div
-      ref="containerRef"
-      style="position: relative; display: inline-block; overflow: visible;"
-  >
-    <div style="position: relative; z-index: 1;">
+  <div ref="containerRef" class="va-wrapper">
+    <div class="va-slot">
       <slot />
     </div>
     <canvas
         v-if="!disabled"
         ref="canvasRef"
-        :style="canvasStyle"
+        class="va-canvas"
         :width="videoRef?.clientWidth"
         :height="videoRef?.clientHeight"
     />
   </div>
 </template>
+
+<style scoped>
+.va-wrapper {
+  position: relative;
+  display: inline-block;
+  overflow: visible;
+}
+
+.va-slot {
+  position: relative;
+  z-index: 1;
+}
+
+.va-canvas {
+  position: absolute;
+  inset: v-bind(canvasInset);
+  width: v-bind(canvasSize);
+  height: v-bind(canvasSize);
+  filter: v-bind(canvasBlur);
+  opacity: v-bind(canvasOpacity);
+  z-index: 0;
+  pointer-events: none;
+}
+</style>
