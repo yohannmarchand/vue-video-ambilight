@@ -1,10 +1,12 @@
 {
   "name": "vue-video-ambilight",
   "author": "Yohann Marchand",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Vue 3 component that adds an ambilight glow effect around a video",
   "type": "module",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "main": "./dist/vue-video-ambilight.umd.cjs",
   "module": "./dist/vue-video-ambilight.js",
   "types": "./dist/index.d.ts",
