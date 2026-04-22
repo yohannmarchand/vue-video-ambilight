@@ -29,7 +29,6 @@ import { VideoAmbilight } from 'vue-video-ambilight'
 | `intensity` | `number`  | `40`    | Blur radius of the ambilight canvas (px)     |
 | `spread`    | `number`  | `40`    | How far the glow extends beyond the video (px) |
 | `opacity`   | `number`  | `0.8`   | Opacity of the ambilight effect (0–1)        |
-| `disabled`  | `boolean` | `false` | Disables the effect                          |
 
 ## Development
 
