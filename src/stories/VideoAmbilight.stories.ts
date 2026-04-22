@@ -6,7 +6,11 @@ const SAMPLE_VIDEO = 'https://ak.picdn.net/shutterstock/videos/1053720152/previe
 const meta: Meta<typeof VideoAmbilight> = {
   title: 'Components/VideoAmbilight',
   component: VideoAmbilight,
-  tags: ['autodocs'],
+  argTypes: {
+    intensity: { control: { type: 'range', min: 0, max: 100, step: 1 } },
+    spread: { control: { type: 'range', min: 0, max: 120, step: 4 } },
+    opacity: { control: { type: 'range', min: 0, max: 1, step: 0.05 } },
+  },
   args: {
     intensity: 40,
     spread: 40,
@@ -19,15 +23,21 @@ export default meta
 type Story = StoryObj<typeof VideoAmbilight>
 
 export const Default: Story = {
+  args: {
+    intensity: 43,
+    opacity: 0.1,
+    spread: 64
+  },
+
   render: (args) => ({
     components: { VideoAmbilight },
     setup() { return { args, src: SAMPLE_VIDEO } },
     template: `
-      <div style="width: 100%; display: flex; align-items: center; justify-content: center; background: #111;">
-        <VideoAmbilight>
-          <video :src="src" autoplay width="600" loop />
+      <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #111;">
+        <VideoAmbilight v-bind="args">
+          <video :src="src" autoplay controls width="600" loop />
         </VideoAmbilight>
       </div>
     `,
-  }),
+  })
 }
