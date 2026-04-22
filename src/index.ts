@@ -1,1 +1,4 @@
-export { default as VideoAmbilight } from './components/VideoAmbilight.vue'
+import VideoAmbilight from './components/VideoAmbilight.vue'
+
+export { VideoAmbilight }
+export default VideoAmbilight
