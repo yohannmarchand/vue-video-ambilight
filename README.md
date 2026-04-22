@@ -43,4 +43,4 @@ npm run type-check   # TypeScript type checking
 
 ## License
 
-MIT
+[MIT](./LICENSE) © [Yohann Marchand](https://github.com/yohannmarchand)
